@@ -2,29 +2,29 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model ZoekLedenViewModel
-
+<h2>Leden zoeken</h2>
 <form asp-action="SearchLeden" method="get">
-    <div class="form-group">
+    <div class="form-group d-flex flex-column mb-2">
         <label asp-for="DeelVoornaam" class="control-label"></label>
         <input asp-for="DeelVoornaam" />
         <span asp-validation-for="DeelVoornaam" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group d-flex flex-column mb-2">
         <label asp-for="DeelNaam" class="control-label"></label>
         <input asp-for="DeelNaam" />
         <span asp-validation-for="DeelNaam" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group d-flex flex-column mb-2">
         <label asp-for="Geslacht" class="control-label"></label>
         <input asp-for="Geslacht" />
         <span asp-validation-for="Geslacht" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group d-flex flex-column mb-2">
         <label asp-for="Niveau" class="control-label"></label>
         <input asp-for="Niveau" />
         <span asp-validation-for="Niveau" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group d-flex flex-column mb-2">
         <label asp-for="DeelClubnaam" class="control-label"></label>
         <input asp-for="DeelClubnaam" />
         <span asp-validation-for="DeelClubnaam" class="text-danger"></span>
@@ -34,3 +34,34 @@
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>
+@if (Model?.Leden != null)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Lidnr</td>
+                <td>Naam</td>
+                <td>Voornaam</td>
+                <td>Geslacht</td>
+                <td>Niveau</td>
+                <td>Club</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lid in Model.Leden)
+            {
+                <tr>
+                    <td>
+                        @lid.Lidnummer
+                    </td>
+                    <td>@lid.Naam</td>
+                    <td>@lid.Voornaam</td>
+                    <td>@lid.Geslacht</td>
+                    <td>@lid.Niveau</td>
+                    <td>@lid.Club.Naam</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@ViewBag.ErrorMessage

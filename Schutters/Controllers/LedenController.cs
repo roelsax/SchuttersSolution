@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Schutters.Models;
 using Schutters.Services;
 using System.Diagnostics.Eventing.Reader;
+using System.Numerics;
 
 namespace Schutters.Controllers
 {
@@ -121,9 +122,47 @@ namespace Schutters.Controllers
             return View(zoekLedenViewModel);
         }
 
-        public IActionResult SearchLeden()
+        public IActionResult SearchLeden(ZoekLedenViewModel form)
         {
+            if(ModelState.IsValid)
+            {
+                var leden = new List<Lid>();
+                var AllLeden = ledenService.GetLeden();
 
+                if(form.DeelNaam != null)
+                {
+                    AllLeden = AllLeden.Where(l => l.Naam.Contains(form.DeelNaam));
+                }
+
+                if(form.DeelVoornaam != null)
+                {
+                    AllLeden = AllLeden.Where(l => l.Voornaam.Contains(form.DeelVoornaam));
+                }
+
+                if(form.Geslacht != null)
+                {
+                    AllLeden = AllLeden.Where(l => l.Geslacht == form.Geslacht);
+                }
+
+                if (form.Niveau != null)
+                {
+                    AllLeden = AllLeden.Where(l => l.Niveau == form.Niveau);
+                }
+
+                if (form.DeelClubnaam != null)
+                {
+                    AllLeden = AllLeden.Where(l => l.Club.Naam.Contains(form.DeelClubnaam));
+                }
+                
+                leden = AllLeden.ToList();
+                form.Leden = leden;
+                if (leden.Count == 0)
+                    ViewBag.ErrorMessage =
+                    $"Er zijn geen leden gevonden.";
+                else
+                    ViewBag.ErrorMessage = String.Empty;
+            }
+            return View("Search", form);
         }
     }
 }

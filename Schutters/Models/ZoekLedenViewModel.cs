@@ -18,5 +18,7 @@ namespace Schutters.Models
 
         [Display(Name = "Deel van de clubnaam:")]
         public string? DeelClubnaam { get; set; }
+
+        public List<Lid> Leden { get; set; } = new List<Lid>();
     }
 }
