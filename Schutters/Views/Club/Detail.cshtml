@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Club
+
+<h1>Details</h1>
+<h2>Club</h2>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+       Stamnummer
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Stamnummer
+    </dd>
+    <dt class="col-sm-2">
+        Clubnaam
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Naam
+    </dd>
+    <dt class="col-sm-2">
+        Postcode
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Postcode
+    </dd>
+    <dt class="col-sm-2">
+        Gemeente
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Gemeente
+    </dd>
+    <dt class="col-sm-2">
+        Adres
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Adres
+    </dd>
+</dl>
+<div>
+    <br />
+    <a asp-action="Edit" asp-route-stamnummer="@Model.Stamnummer">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

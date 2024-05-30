@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<Club>
+
+<h1>Index</h1>
+<a asp-action="Add">Create new</a>
+<br />
+@if (Model == null || Model.Count() == 0)
+{
+    <h3>Er zijn geen clubs geregistreerd.</h3>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Stamnr</td>
+                <td>Clubnaam</td>
+                <td>Postcode</td>
+                <td>Gemeente</td>
+                <td>Adres</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var club in Model)
+            {
+                <tr>
+                    <td>
+                        @club.Stamnummer
+                    </td>
+                    <td>@club.Naam</td>
+                    <td>@club.Postcode</td>
+                    <td>@club.Gemeente</td>
+                    <td>@club.Adres</td>
+                    <td>
+                        <a asp-action="Detail" asp-route-stamnummer="@club.Stamnummer">Detail</a> |
+                        <a asp-action="Edit" asp-route-stamnummer="@club.Stamnummer">Edit</a> |
+                        <a asp-action="Delete" asp-route-stamnummer="@club.Stamnummer">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
