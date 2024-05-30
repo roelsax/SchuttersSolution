@@ -4,7 +4,10 @@
 @model IEnumerable<Club>
 
 <h1>Index</h1>
-<a asp-action="Add">Create new</a>
+@if (@User.IsInRole("Admin"))
+{
+    <a asp-action="Add">Create new</a>
+}
 <br />
 @if (Model == null || Model.Count() == 0)
 {
@@ -35,9 +38,13 @@ else
                     <td>@club.Gemeente</td>
                     <td>@club.Adres</td>
                     <td>
-                        <a asp-action="Detail" asp-route-stamnummer="@club.Stamnummer">Detail</a> |
-                        <a asp-action="Edit" asp-route-stamnummer="@club.Stamnummer">Edit</a> |
-                        <a asp-action="Delete" asp-route-stamnummer="@club.Stamnummer">Delete</a>
+                        <a asp-action="Detail" asp-route-stamnummer="@club.Stamnummer">Detail</a> 
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <span>|</span>
+                            <a asp-action="Edit" asp-route-stamnummer="@club.Stamnummer">Edit</a> <span>|</span>
+                            <a asp-action="Delete" asp-route-stamnummer="@club.Stamnummer">Delete</a>
+                        }
                     </td>
                 </tr>
             }

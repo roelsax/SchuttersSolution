@@ -2,6 +2,7 @@
 using Schutters.Services;
 using Schutters.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Schutters.Controllers
 {
@@ -12,11 +13,13 @@ namespace Schutters.Controllers
         {
             this.clubService = clubService;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View(clubService.GetClubs());
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add() 
         {
             var club = new Club();
@@ -25,6 +28,7 @@ namespace Schutters.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add(Club club)
         {
             if (ValideerStamnummer(club.Stamnummer) == false)
@@ -61,7 +65,7 @@ namespace Schutters.Controllers
             return View(club);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int stamnummer)
         {
             var club = clubService.FindClub(stamnummer);
@@ -76,6 +80,7 @@ namespace Schutters.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int stamnummer, Club club)
         {
             if(stamnummer != club.Stamnummer)
@@ -93,6 +98,7 @@ namespace Schutters.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int stamnummer) 
         {
             if (clubService.FindClub(stamnummer) == null)

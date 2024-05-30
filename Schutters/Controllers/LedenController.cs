@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Schutters.Models;
@@ -18,12 +19,13 @@ namespace Schutters.Controllers
             this.ledenService = ledenService;
             this.clubService = clubService;
         }
-
+        [Authorize(Roles = "Leden,Admin")]
         public IActionResult Index()
         {
             return View(ledenService.GetLeden());
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             ViewData["Club"] = new SelectList(clubService.GetClubs(), "Stamnummer", "Naam");
@@ -33,6 +35,7 @@ namespace Schutters.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add(Lid lid)
         {
             if (!ValideerLidnummer(lid.Lidnummer)) {
@@ -60,7 +63,7 @@ namespace Schutters.Controllers
         {
             return !ledenService.Bestaat(Lidnummer);
         }
-
+        [Authorize(Roles = "Leden,Admin")]
         public IActionResult Detail(long lidnummer)
         {
             var lid = ledenService.FindLid(lidnummer);
@@ -72,7 +75,7 @@ namespace Schutters.Controllers
 
             return View(lid);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(long lidnummer)
         {
             var lid = ledenService.FindLid(lidnummer);
@@ -87,6 +90,7 @@ namespace Schutters.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(long lidnummer, Lid lid)
         {
             if (lidnummer != lid.Lidnummer)
@@ -104,7 +108,7 @@ namespace Schutters.Controllers
                 return View(lid);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(long lidnummer)
         {
             if(ledenService.FindLid(lidnummer) == null)
@@ -116,12 +120,14 @@ namespace Schutters.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Leden,Admin")]
         public IActionResult Search()
         {
             ZoekLedenViewModel zoekLedenViewModel = new ZoekLedenViewModel();
             return View(zoekLedenViewModel);
         }
 
+        [Authorize(Roles = "Leden,Admin")]
         public IActionResult SearchLeden(ZoekLedenViewModel form)
         {
             if(ModelState.IsValid)
