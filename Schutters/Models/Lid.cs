@@ -7,7 +7,7 @@ namespace Schutters.Models;
 public class Lid
 {
     [Required]
-    public long Lidnummer { get; set; }
+    public long? Lidnummer { get; set; }
     [Required]
     [StringLength(55)]
     public string Naam { get; set; } = null!;

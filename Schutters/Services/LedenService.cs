@@ -20,7 +20,7 @@ namespace Schutters.Services
         public void Update(Lid lid) => repository.Update(lid);
         public void Remove(long lidnummer) => repository.Delete(lidnummer);
 
-        public bool Bestaat(long lidnummer)
+        public bool Bestaat(long? lidnummer)
         {
             if ((from lid in GetLeden()
                  where lid.Lidnummer == lidnummer

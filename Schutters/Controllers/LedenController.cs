@@ -29,6 +29,20 @@ namespace Schutters.Controllers
         public IActionResult Add()
         {
             ViewData["Club"] = new SelectList(clubService.GetClubs(), "Stamnummer", "Naam");
+            List<SelectListItem> Geslachten = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value = "M", Text = "M" },
+                new SelectListItem() { Value = "V", Text = "V" },
+                new SelectListItem() { Value = "X", Text = "X" }
+            };
+
+            ViewData["GeslachtOptions"] = new SelectList(Geslachten, "Value", "Text");
+
+            List<SelectListItem> Niveaus = new List<SelectListItem>();
+            Niveaus.Add(new SelectListItem { Value = "C", Text = "C" });
+            Niveaus.Add(new SelectListItem { Value = "R", Text = "R" });
+            Niveaus.Add(new SelectListItem { Value = "J", Text = "J" });
+            ViewBag.NiveauOptions = new SelectList(Niveaus, "Value", "Text");
             var lid = new Lid();
             return View(lid);
         }
@@ -59,7 +73,7 @@ namespace Schutters.Controllers
             }
         }
 
-        public bool ValideerLidnummer(long Lidnummer)
+        public bool ValideerLidnummer(long? Lidnummer)
         {
             return !ledenService.Bestaat(Lidnummer);
         }
@@ -85,6 +99,21 @@ namespace Schutters.Controllers
                 return NotFound();
             }
             ViewData["Club"] = new SelectList(clubService.GetClubs(), "Stamnummer", "Naam");
+
+            List<SelectListItem> Geslachten = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value = "M", Text = "M" },
+                new SelectListItem() { Value = "V", Text = "V" },
+                new SelectListItem() { Value = "X", Text = "X" }
+            };
+
+            ViewData["GeslachtOptions"] = Geslachten;
+
+            List <SelectListItem> Niveaus = new List<SelectListItem>();
+            Niveaus.Add(new SelectListItem { Value = "C", Text = "C" });
+            Niveaus.Add(new SelectListItem { Value = "R", Text = "R" });
+            Niveaus.Add(new SelectListItem { Value = "J", Text = "J" });
+            ViewBag.NiveauOptions = new SelectList(Niveaus, "Value", "Text");
 
             return View(lid);
         }
